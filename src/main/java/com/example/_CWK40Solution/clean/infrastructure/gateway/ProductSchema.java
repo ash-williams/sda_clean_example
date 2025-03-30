@@ -8,10 +8,12 @@ import com.example._CWK40Solution.clean.entities.product.exceptions.InvalidNameE
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Objects;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Products")
-class ProductSchema extends AbstractEntitySchema<Long> {
+class ProductSchema  {
 
     public static Product toProduct(ProductSchema schema) {
         try {
@@ -21,14 +23,37 @@ class ProductSchema extends AbstractEntitySchema<Long> {
         }
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+
     @UniqueProductName(message = "{Unique.product.name}")
     @NotBlank
     @Column(length = ProductName.MAX_LENGTH, unique = true)
     private String name;
 
+    //required
+    private ProductSchema()
+    {
+
+    }
+
+    //required
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductSchema that = (ProductSchema) o;
+        return id == that.id && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 
     public ProductSchema(Product product) {
-        this.setId(product.getId().asLong());
+        this.id =product.getId().asLong();
         this.name = product.getName().asString();
     }
 
@@ -41,4 +66,11 @@ class ProductSchema extends AbstractEntitySchema<Long> {
     }
 
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

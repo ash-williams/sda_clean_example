@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-class UniqueProductNameValidator implements ConstraintValidator<UniqueProductName, String> {
+public class UniqueProductNameValidator implements ConstraintValidator<UniqueProductName, String> {
     @Autowired
     private ProductRepository repository;
 
