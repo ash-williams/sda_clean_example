@@ -2,6 +2,7 @@ package com.example._CWK40Solution.clean.infrastructure.controller;
 
 import com.example._CWK40Solution.clean.entities.product.exceptions.InvalidIdException;
 import com.example._CWK40Solution.clean.entities.product.exceptions.InvalidNameException;
+import com.example._CWK40Solution.clean.usecases.product.DuplicateNameException;
 import com.example._CWK40Solution.clean.usecases.product.ProductCreationData;
 import com.example._CWK40Solution.clean.usecases.product.ProductPublicData;
 import com.example._CWK40Solution.clean.usecases.product.CreateProductUseCase;
@@ -22,7 +23,7 @@ class CreateProductController {
 
     @PostMapping("/products")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductPublicData createProduct(@Valid @RequestBody ProductCreationData newProduct) throws InvalidNameException, InvalidIdException {
+    public ProductPublicData createProduct(@Valid @RequestBody ProductCreationData newProduct) throws InvalidNameException, DuplicateNameException {
         return createProductUseCase.execute(newProduct);
     };
 

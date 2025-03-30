@@ -2,6 +2,7 @@ package com.example._CWK40Solution.clean.infrastructure.gateway;
 
 import com.example._CWK40Solution.clean.entities.product.Product;
 import com.example._CWK40Solution.clean.entities.product.ProductGateway;
+import com.example._CWK40Solution.clean.entities.product.ProductName;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,11 @@ class ProductDatabaseGateway implements ProductGateway {
     @Override
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id).map(ProductSchema::toProduct);
+    }
+
+    @Override
+    public boolean checkName(ProductName name) {
+        return productRepository.findByName(name.asString()).isPresent();
     }
 
     @Override
